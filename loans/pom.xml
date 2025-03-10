@@ -6,14 +6,15 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.4.3</version>
+    <version>3.4.1</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
   <groupId>com.springboot</groupId>
   <artifactId>loans</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>loans</name>
-  <description>loans</description>
+  <description>Microservice for Loans</description>
   <url/>
   <licenses>
     <license/>
@@ -92,13 +93,9 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <excludes>
-            <exclude>
-              <groupId>org.projectlombok</groupId>
-              <artifactId>lombok</artifactId>
-              <version>${lombok.version}</version>
-            </exclude>
-          </excludes>
+          <image>
+            <name>ntuan2908/${project.artifactId}:s4</name>
+          </image>
         </configuration>
       </plugin>
     </plugins>
