@@ -1,0 +1,10 @@
+build:
+  version: "1.0"
+
+accounts:
+  message: "Hello world to accounts Prod Environment"
+  contactDetails:
+    name: "Tyler Nguyen"
+    email: "natuan.298@mgail.com"
+  onCallSupport:
+    - (84)987-402-464

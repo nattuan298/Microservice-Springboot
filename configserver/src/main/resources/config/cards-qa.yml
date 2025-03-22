@@ -1,0 +1,10 @@
+build:
+  version: "2.0"
+
+cards:
+  message: "Hello world to cards QA Environment"
+  contactDetails:
+    name: "Tyler Nguyen"
+    email: "natuan.298@mgail.com"
+  onCallSupport:
+    - (84)987-402-464

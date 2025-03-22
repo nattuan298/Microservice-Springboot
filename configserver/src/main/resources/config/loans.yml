@@ -1,0 +1,10 @@
+build:
+  version: "3.0"
+
+loans:
+  message: "Hello world"
+  contactDetails:
+    name: "Tyler Nguyen"
+    email: "natuan.298@mgail.com"
+  onCallSupport:
+    - (84)987-402-464

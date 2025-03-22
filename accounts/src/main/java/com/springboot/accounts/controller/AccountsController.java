@@ -4,6 +4,7 @@ import static com.springboot.accounts.constants.AccountsConstants.MESSAGE_201;
 import static com.springboot.accounts.constants.AccountsConstants.STATUS_201;
 
 import com.springboot.accounts.constants.AccountsConstants;
+import com.springboot.accounts.dto.AccountsContactInfoDto;
 import com.springboot.accounts.dto.CustomerDto;
 import com.springboot.accounts.dto.ErrorResponseDto;
 import com.springboot.accounts.dto.ResponseDto;
@@ -15,7 +16,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +35,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
-@AllArgsConstructor
 @Tag(
     name = "CRUD REST APIs for Accounts:",
     description = "CREATE, UPDATE, FETCH AND DELETE account details"
@@ -55,6 +57,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountsController {
 
   private IAccountService iAccountService;
+
+  public AccountsController(IAccountService iAccountService) {
+    this.iAccountService = iAccountService;
+  }
+
+  @Value("${build.version}")
+  private String buildVersion;
+
+  @Autowired
+  private Environment environment;
+
+  @Autowired
+  private AccountsContactInfoDto accountsContactInfoDto;
 
   @Operation(
       summary = "Create account API",
@@ -124,5 +139,32 @@ public class AccountsController {
           .body(
               new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_DELETE));
     }
+  }
+
+  @Operation(
+      summary = "Get build version API",
+      description = "REST API to get build version"
+  )
+  @GetMapping("/build-info")
+  public ResponseEntity<String> getBuildInfo() {
+    return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+  }
+
+  @Operation(
+      summary = "Get java version API",
+      description = "REST API to get java version"
+  )
+  @GetMapping("/java-version")
+  public ResponseEntity<String> getJavaVersion() {
+    return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
+  }
+
+  @Operation(
+      summary = "Get contact API",
+      description = "REST API to get contact info"
+  )
+  @GetMapping("/contact-info")
+  public ResponseEntity<AccountsContactInfoDto> getContactInfo() {
+    return ResponseEntity.status(HttpStatus.OK).body(accountsContactInfoDto);
   }
 }

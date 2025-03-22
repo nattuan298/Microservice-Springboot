@@ -1,6 +1,7 @@
 package com.springboot.cards.controller;
 
 import com.springboot.cards.constants.CardsConstants;
+import com.springboot.cards.dto.CardsContactInfoDto;
 import com.springboot.cards.dto.CardsDto;
 import com.springboot.cards.dto.ErrorResponseDto;
 import com.springboot.cards.dto.ResponseDto;
@@ -13,6 +14,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +36,6 @@ import org.springframework.web.bind.annotation.RestController;
 )
 @RestController
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
-@AllArgsConstructor
 @Validated
 @ApiResponse(
     responseCode = "200",
@@ -52,6 +55,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class CardsController {
 
   private ICardsService iCardsService;
+
+  public CardsController(ICardsService iCardsService) {
+    this.iCardsService = iCardsService;
+  }
+
+  @Value("${build.version}")
+  private String buildVersion;
+
+  @Autowired
+  private Environment environment;
+
+  @Autowired
+  private CardsContactInfoDto cardsContactInfoDto;
 
   @Operation(
       summary = "Create Card REST API",
@@ -119,6 +135,33 @@ public class CardsController {
           .status(HttpStatus.EXPECTATION_FAILED)
           .body(new ResponseDto(CardsConstants.STATUS_417, CardsConstants.MESSAGE_417_DELETE));
     }
+  }
+
+  @Operation(
+      summary = "Get build version API",
+      description = "REST API to get build version"
+  )
+  @GetMapping("/build-info")
+  public ResponseEntity<String> getBuildInfo() {
+    return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+  }
+
+  @Operation(
+      summary = "Get java version API",
+      description = "REST API to get java version"
+  )
+  @GetMapping("/java-version")
+  public ResponseEntity<String> getJavaVersion() {
+    return ResponseEntity.status(HttpStatus.OK).body(environment.getProperty("JAVA_HOME"));
+  }
+
+  @Operation(
+      summary = "Get contact API",
+      description = "REST API to get contact info"
+  )
+  @GetMapping("/contact-info")
+  public ResponseEntity<CardsContactInfoDto> getContactInfo() {
+    return ResponseEntity.status(HttpStatus.OK).body(cardsContactInfoDto);
   }
 
 }
