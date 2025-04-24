@@ -12,7 +12,7 @@
   <artifactId>gatewayserver</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>gatewayserver</name>
-  <description>Edge Server for Eazy Bank microservices</description>
+  <description>Edge Server for microservices</description>
   <url/>
   <licenses>
     <license/>
@@ -84,7 +84,7 @@
         <version>3.4.2</version>
         <configuration>
           <to>
-            <image>eazybytes/${project.artifactId}:s9</image>
+            <image>ntuan2908/${project.artifactId}:s9</image>
           </to>
         </configuration>
       </plugin>
